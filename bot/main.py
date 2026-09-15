@@ -25,11 +25,18 @@ async def on_startup(bot: Bot):
             web_app=WebAppInfo(url=WEBAPP_URL),
         )
     )
-    logger.info("Menu button set: %s", WEBAPP_URL)
     await bot.set_my_commands([
         BotCommand(command="start", description="Bosh sahifa"),
         BotCommand(command="admin", description="Admin panel"),
     ])
+
+    from bot.config import CHANNEL_ID
+    try:
+        chat = await bot.get_chat(CHANNEL_ID)
+        logger.info(f"✅ Kanal muvaffaqiyatli topildi: '{chat.title}' (ID: {CHANNEL_ID})")
+    except Exception as e:
+        logger.warning(f"⚠️ Kanalga ({CHANNEL_ID}) ulanib bo'lmadi: {e}. Bot kanalga ADMIN qilib qo'shilganini tekshiring!")
+
 
 
 async def main():

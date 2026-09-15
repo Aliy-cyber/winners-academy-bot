@@ -29,24 +29,42 @@ class RegistrationFSM(StatesGroup):
     time_pref = State()
 
 
+import logging
+from bot.config import ADMIN_IDS
+
+logger = logging.getLogger(__name__)
+
+
 # ─── helpers ──────────────────────────────────────────────────────────────────
-async def _send_to_channel(bot: Bot, data: dict, tg_id: int, username: str):
+async def _send_to_channel(bot: Bot, data: dict, tg_id: int, username: str, source: str = "BOT"):
     now  = datetime.now().strftime("%d.%m.%Y %H:%M")
     text = (
-        "\U0001f393 YANGI ARIZA \u2014 SINOV DARSI\n\n"
-        f"\U0001f464 Ism: {data.get('full_name','')}\n"
-        f"\U0001f4f1 Telefon: {data.get('phone','')}\n"
-        f"\U0001f3e2 Filial: {data.get('branch','')}\n"
-        f"\U0001f4da Kurs: {data.get('course','')}\n"
-        f"\u23f0 Qulay vaqt: {data.get('time_pref','')}\n"
+        f"🎓 <b>YANGI ARIZA — SINOV DARSI</b> ({source})\n\n"
+        f"👤 <b>Ism:</b> {data.get('full_name','')}\n"
+        f"📱 <b>Telefon:</b> {data.get('phone','')}\n"
+        f"🏢 <b>Filial:</b> {data.get('branch','')}\n"
+        f"📚 <b>Kurs:</b> {data.get('course','')}\n"
+        f"⏰ <b>Qulay vaqt:</b> {data.get('time_pref','')}\n"
     )
     if data.get("quiz_score") is not None:
-        text += f"\U0001f4ca Test: {data['quiz_score']}/15 ({data.get('quiz_level','')})\n"
-    text += f"\n\U0001f550 {now}\n\U0001f194 @{username} | ID: {tg_id}"
+        text += f"📊 <b>Test natijasi:</b> {data['quiz_score']}/15 ({data.get('quiz_level','')})\n"
+    text += f"\n🕐 <b>Ariza vaqti:</b> {now}\n🆔 <b>Telegram:</b> @{username} | ID: {tg_id}"
+
+    # 1. Telegram kanalga yuborish
     try:
         await bot.send_message(CHANNEL_ID, text)
-    except Exception:
-        pass
+        logger.info(f"Kanalga ({CHANNEL_ID}) ariza muvaffaqiyatli yuborildi.")
+    except Exception as e:
+        logger.error(f"Kanalga ({CHANNEL_ID}) yuborishda xatolik: {e}")
+
+    # 2. Admin(lar)ga shaxsiy xabar yuborish
+    for admin_id in ADMIN_IDS:
+        if admin_id and admin_id != 0:
+            try:
+                await bot.send_message(admin_id, f"🔔 <b>YANGI ARIZA KELIB TUSHDI!</b>\n\n{text}")
+                logger.info(f"Adminga ({admin_id}) ariza yuborildi.")
+            except Exception as e:
+                logger.error(f"Adminga ({admin_id}) yuborishda xatolik: {e}")
 
 
 async def _save_db(tg_id: int, username: str, data: dict):
@@ -61,6 +79,7 @@ async def _save_db(tg_id: int, username: str, data: dict):
         quiz_score=data.get("quiz_score"),
         quiz_level=data.get("quiz_level"),
     )
+
 
 
 # ─── entry: bot button (register_start) ───────────────────────────────────────
@@ -98,41 +117,27 @@ async def handle_webapp_data(message: Message):
 
         if data.get("type") == "registration":
             full_name = data.get("name", "")
-            await save_user(tg_id, uname or None, full_name or None)
-            await save_application(
-                tg_id=tg_id,
-                full_name=full_name,
-                phone=data.get("phone", ""),
-                branch=data.get("branch", ""),
-                course=data.get("course", ""),
-                time_pref=data.get("time_pref", ""),
-                quiz_score=str(data["quiz_score"]) if data.get("quiz_score") is not None else None,
-                quiz_level=data.get("quiz_level"),
-            )
-            now  = datetime.now().strftime("%d.%m.%Y %H:%M")
-            card = (
-                "\U0001f4f1 MINI APP ORQALI ARIZA\n\n"
-                f"\U0001f464 Ism: {full_name}\n"
-                f"\U0001f4f1 Telefon: {data.get('phone','')}\n"
-                f"\U0001f3e2 Filial: {data.get('branch','')}\n"
-                f"\U0001f4da Kurs: {data.get('course','')}\n"
-                f"\u23f0 Vaqt: {data.get('time_pref','')}\n"
-            )
-            if data.get("quiz_score") is not None:
-                card += f"\U0001f4ca Test: {data['quiz_score']}/15 ({data.get('quiz_level','')})\n"
-            card += f"\n\U0001f550 {now}\n\U0001f194 @{uname} | ID: {tg_id}"
-            try:
-                await message.bot.send_message(CHANNEL_ID, card)
-            except Exception:
-                pass
+            app_data = {
+                "full_name": full_name,
+                "phone": data.get("phone", ""),
+                "branch": data.get("branch", ""),
+                "course": data.get("course", ""),
+                "time_pref": data.get("time_pref", ""),
+                "quiz_score": str(data["quiz_score"]) if data.get("quiz_score") is not None else None,
+                "quiz_level": data.get("quiz_level"),
+            }
+            await _save_db(tg_id, uname, app_data)
+            await _send_to_channel(message.bot, app_data, tg_id, uname, source="MINI APP")
+
             await message.answer(
-                "\u2705 <b>Arizangiz qabul qilindi!</b>\n\n"
-                f"\U0001f464 Ism: <b>{full_name}</b>\n"
-                f"\U0001f4f1 Tel: <b>{data.get('phone','')}</b>\n"
-                f"\U0001f3e2 Filial: <b>{data.get('branch','')}</b>\n\n"
-                "Tez orada menejerimiz siz bilan bog'lanadi! \U0001f91d",
+                "✅ <b>Arizangiz qabul qilindi!</b>\n\n"
+                f"👤 Ism: <b>{full_name}</b>\n"
+                f"📱 Tel: <b>{data.get('phone','')}</b>\n"
+                f"🏢 Filial: <b>{data.get('branch','')}</b>\n\n"
+                "Tez orada menejerimiz siz bilan bog'lanadi! 🤝",
                 reply_markup=main_menu_keyboard(),
             )
+
     except Exception as e:
         await message.answer(f"Xatolik yuz berdi: {e}")
 
