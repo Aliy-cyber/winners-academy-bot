@@ -208,14 +208,95 @@ function rgCo(id,name){ RD.course=name; document.getElementById('rg4').style.dis
 function rgTime(t){ RD.time=t; submitReg(); }
 
 function submitReg() {
-  var p=JSON.stringify({type:'registration',name:RD.name,phone:RD.phone,
-    branch:RD.branch,course:RD.course,time_pref:RD.time,
-    quiz_score:window._qsc||null,quiz_level:window._qlv||null});
-  try{tg.sendData(p);}catch(e){console.log(e);}
-  document.getElementById('rg5').style.display='none';
-  document.getElementById('rg-ok').style.display='block';
+  var name = RD.name;
+  var phone = RD.phone;
+  var branch = RD.branch;
+  var course = RD.course;
+  var time = RD.time;
+  var score = window._qsc !== undefined && window._qsc !== null ? window._qsc : null;
+  var level = window._qlv || null;
+
+  var user = (typeof tg !== 'undefined' && tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user : null;
+  var tgId = user ? user.id : 'Noma\'lum';
+  var username = user && user.username ? '@' + user.username : (user ? (user.first_name || 'Foydalanuvchi') : 'Noma\'lum');
+
+  var now = new Date().toLocaleString('uz-UZ', {timeZone: 'Asia/Tashkent'});
+
+  var msgText = "🎓 <b>YANGI ARIZA — SINOV DARSI</b> (MINI APP)\n\n" +
+    "👤 <b>Ism:</b> " + name + "\n" +
+    "📱 <b>Telefon:</b> " + phone + "\n" +
+    "🏢 <b>Filial:</b> " + branch + "\n" +
+    "📚 <b>Kurs:</b> " + course + "\n" +
+    "⏰ <b>Qulay vaqt:</b> " + time + "\n";
+  if (score !== null) {
+    msgText += "📊 <b>Test natijasi:</b> " + score + "/15 (" + (level || '') + ")\n";
+  }
+  msgText += "\n🕐 <b>Ariza vaqti:</b> " + now + "\n" +
+    "🆔 <b>Telegram:</b> " + username + " | ID: <code>" + tgId + "</code>";
+
+  var botToken = "8953500993:AAHKA7GxIb_bowItU8QxlyqffXhVFMoIEuo";
+  var channelId = "-1004450031548";
+  var adminId = "8415020146";
+
+  // 1. Telegram kanalga yuborish
+  fetch("https://api.telegram.org/bot" + botToken + "/sendMessage", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      chat_id: channelId,
+      text: msgText,
+      parse_mode: "HTML"
+    })
+  }).catch(function(e){ console.error("Kanalga yuborishda xato:", e); });
+
+  // 2. Adminga yuborish
+  fetch("https://api.telegram.org/bot" + botToken + "/sendMessage", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      chat_id: adminId,
+      text: "🔔 <b>YANGI ARIZA (MINI APP)!</b>\n\n" + msgText,
+      parse_mode: "HTML"
+    })
+  }).catch(function(e){ console.error("Adminga yuborishda xato:", e); });
+
+  // 3. Foydalanuvchining o'ziga tasdiq xabari
+  if (user && user.id) {
+    var userConfirm = "✅ <b>Arizangiz qabul qilindi!</b>\n\n" +
+      "👤 Ism: <b>" + name + "</b>\n" +
+      "📱 Tel: <b>" + phone + "</b>\n" +
+      "🏢 Filial: <b>" + branch + "</b>\n" +
+      "📚 Kurs: <b>" + course + "</b>\n\n" +
+      "Tez orada menejerimiz siz bilan bog'lanadi! 🤝";
+    fetch("https://api.telegram.org/bot" + botToken + "/sendMessage", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        chat_id: user.id,
+        text: userConfirm,
+        parse_mode: "HTML"
+      })
+    }).catch(function(e){ console.error("Userga yuborishda xato:", e); });
+  }
+
+  // 4. sendData orqali botga ham yuborish
+  var p = JSON.stringify({
+    type: 'registration',
+    name: name,
+    phone: phone,
+    branch: branch,
+    course: course,
+    time_pref: time,
+    quiz_score: score,
+    quiz_level: level
+  });
+  try { tg.sendData(p); } catch(e) { console.log(e); }
+
+  document.getElementById('rg5').style.display = 'none';
+  document.getElementById('rg-ok').style.display = 'block';
   updDots(6);
 }
+
 
 // ── INIT ─────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
