@@ -245,7 +245,29 @@ document.addEventListener('DOMContentLoaded', function() {
   renderBranches();
   renderTeachers();
   renderRegOptions();
+  startCountdown();
   if (tg.BackButton) {
     tg.BackButton.onClick(function() { showTab('home'); });
   }
 });
+
+// Countdown — ends midnight tonight
+function startCountdown() {
+  function tick() {
+    var now   = new Date();
+    var end   = new Date(now); end.setHours(23,59,59,0);
+    var diff  = Math.max(0, Math.floor((end - now) / 1000));
+    var h = Math.floor(diff / 3600);
+    var m = Math.floor((diff % 3600) / 60);
+    var s = diff % 60;
+    var pad = function(n){ return n < 10 ? '0'+n : n; };
+    var eh = document.getElementById('cd-h');
+    var em = document.getElementById('cd-m');
+    var es = document.getElementById('cd-s');
+    if (eh) eh.textContent = pad(h);
+    if (em) em.textContent = pad(m);
+    if (es) es.textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+}

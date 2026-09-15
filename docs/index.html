@@ -2,196 +2,215 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Winners Academy</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- HEADER -->
-<div class="header">
-  <div class="header-logo">&#127942;</div>
-  <div class="header-text">
-    <h1>Winners Academy</h1>
-    <p>Orzularingiz sari birinchi qadam</p>
-  </div>
-</div>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat"><span class="stat-num">7</span><span class="stat-label">ta filial</span></div>
-  <div class="stat"><span class="stat-num">3000+</span><span class="stat-label">o'quvchi</span></div>
-  <div class="stat"><span class="stat-num">9 yil</span><span class="stat-label">tajriba</span></div>
-</div>
+<!-- ══ TOP BAR ══ -->
+<header class="topbar">
+  <img src="logo.webp" alt="Winners Academy" class="topbar-logo">
+  <span class="topbar-name">Winners Academy</span>
+</header>
 
-<!-- TABS CONTENT -->
-<div id="tab-home" class="tab-content active">
-  <!-- Advantages -->
-  <div class="section-title">&#127775; Nega aynan biz?</div>
-  <div class="adv-grid">
-    <div class="adv-card"><div class="adv-icon">&#128274;</div><div class="adv-text"><b>Padval tizimi</b><span>Har bir darsni onlayn kuzating</span></div></div>
-    <div class="adv-card"><div class="adv-icon">&#128104;&#8205;&#127979;</div><div class="adv-text"><b>2+1 o'qituvchi</b><span>Har bir o'quvchiga alohida e'tibor</span></div></div>
-    <div class="adv-card"><div class="adv-icon">&#127941;</div><div class="adv-text"><b>50% Grant</b><span>Eng yaxshi o'quvchilarga</span></div></div>
-    <div class="adv-card"><div class="adv-icon">&#128218;</div><div class="adv-text"><b>Maxsus kitob</b><span>O'zimizning o'quv materiali</span></div></div>
-    <div class="adv-card"><div class="adv-icon">&#128202;</div><div class="adv-text"><b>Haftalik testlar</b><span>Doimiy nazorat va o'sish</span></div></div>
-    <div class="adv-card"><div class="adv-icon">&#127775;</div><div class="adv-text"><b>IELTS 8.5</b><span>Surxondaryodagi eng yuqori ball</span></div></div>
-  </div>
+<!-- ══ TABS ══ -->
+<div id="tab-home" class="tab active">
 
-  <!-- Courses -->
-  <div class="section-title">&#128218; Kurslarimiz</div>
-  <div class="courses-list">
-    <div class="course-card" onclick="showTab('test')">
-      <span class="course-icon">&#128214;</span>
-      <div class="course-info"><b>Grammatika &mdash; Beginner</b><span>0 dan boshlovchilar &bull; 4&ndash;6 oy</span></div>
-      <span class="course-arrow">&#8250;</span>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1 class="hero-title">
+        <span class="accent">Ingliz tili bilan</span><br>
+        barcha maqsadlaringizga<br>erishishga yordam beramiz!
+      </h1>
+      <p class="hero-sub">Bu sahifani o'qish uchun sarflagan 4 daqiqa vaqtingiz hayotingizda eng katta burilish yasashi mumkin.</p>
+      <button class="btn-cta" onclick="showTab('register')">
+        &#128640; 1-Sinov darsiga yozilish
+      </button>
     </div>
-    <div class="course-card" onclick="showTab('test')">
-      <span class="course-icon">&#128216;</span>
-      <div class="course-info"><b>Pre-IELTS</b><span>A2&ndash;B1 daraja &bull; 3&ndash;5 oy</span></div>
-      <span class="course-arrow">&#8250;</span>
+    <div class="hero-right">
+      <div class="video-wrap">
+        <video class="hero-video" controls playsinline poster="">
+          <source src="hero_video.mp4" type="video/mp4">
+        </video>
+        <a class="yt-link" href="https://www.youtube.com/@winnersacademyuz" target="_blank">
+          &#9654; YouTube da ko'ring
+        </a>
+      </div>
+      <div class="countdown-box">
+        <p class="countdown-label">&#128242; Qo'ng'iroq qiling: <a href="tel:+998555109898" class="phone-link">+998 55 510-98-98</a></p>
+        <p class="countdown-sub">Vaqtingiz ketmoqda...</p>
+        <div class="countdown" id="countdown">
+          <div class="cd-unit"><span id="cd-h">00</span><small>Soat</small></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-unit"><span id="cd-m">00</span><small>Daqiqa</small></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-unit"><span id="cd-s">00</span><small>Soniya</small></div>
+        </div>
+      </div>
     </div>
-    <div class="course-card" onclick="showTab('test')">
-      <span class="course-icon">&#127891;</span>
-      <div class="course-info"><b>IELTS</b><span>B1+ daraja &bull; 3&ndash;6 oy</span></div>
-      <span class="course-arrow">&#8250;</span>
-    </div>
-    <div class="course-card" onclick="showTab('test')">
-      <span class="course-icon">&#127941;</span>
-      <div class="course-info"><b>CEFR Guruhlari</b><span>B2/C1 sertifikat &bull; 2&ndash;4 oy</span></div>
-      <span class="course-arrow">&#8250;</span>
-    </div>
-  </div>
+  </section>
 
-  <!-- CTA -->
-  <button class="btn-primary" onclick="showTab('register')">&#128640; Birinchi bepul darsga yozilish</button>
-  <button class="btn-secondary" onclick="showTab('test')">&#128221; Bepul ingliz tili testi (15 ta savol)</button>
-</div>
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat"><strong>9000+</strong><span>o'quvchi</span></div>
+    <div class="stat"><strong>6+</strong><span>filiallar</span></div>
+    <div class="stat"><strong>9+</strong><span>yillik tajriba</span></div>
+    <div class="stat"><strong>20+</strong><span>tajribali ustozlar</span></div>
+  </section>
 
-<!-- TEST TAB -->
-<div id="tab-test" class="tab-content">
-  <div id="quiz-start-screen">
-    <div class="quiz-intro">
-      <div class="quiz-intro-icon">&#129504;</div>
-      <h2>Ingliz tili darajangizni aniqlang</h2>
-      <p>15 ta savol &bull; A1 dan C1 gacha &bull; 5 daqiqa</p>
-      <p class="quiz-hint">Test natijasiga qarab sizga mos kurs tavsiya qilinadi</p>
-      <button class="btn-primary" onclick="startQuiz()">&#128640; Testni boshlash</button>
+  <!-- NEGA BIZ -->
+  <section class="section">
+    <h2 class="section-title">&#127775; Nega aynan biz?</h2>
+    <div class="adv-grid">
+      <div class="adv-card"><div class="adv-icon">&#128274;</div><div><b>Padval tizimi</b><p>Har bir darsni onlayn kuzating</p></div></div>
+      <div class="adv-card"><div class="adv-icon">&#128104;&#8205;&#127979;</div><div><b>2+1 o'qituvchi</b><p>Har bir o'quvchiga e'tibor</p></div></div>
+      <div class="adv-card"><div class="adv-icon">&#127941;</div><div><b>50% Grant</b><p>Eng yaxshi o'quvchilarga</p></div></div>
+      <div class="adv-card"><div class="adv-icon">&#128218;</div><div><b>Maxsus kitob</b><p>O'zimizning o'quv materiali</p></div></div>
+      <div class="adv-card"><div class="adv-icon">&#128202;</div><div><b>Haftalik testlar</b><p>Doimiy nazorat va o'sish</p></div></div>
+      <div class="adv-card"><div class="adv-icon">&#127775;</div><div><b>IELTS 8.5</b><p>Surxondaryodagi eng yuqori ball</p></div></div>
     </div>
+  </section>
+
+  <!-- KURSLAR -->
+  <section class="section">
+    <h2 class="section-title">&#128218; Kurslarimiz</h2>
+    <div class="courses">
+      <div class="course-card" onclick="showTab('test')">
+        <span class="course-icon">&#128214;</span>
+        <div><b>Grammatika &mdash; Beginner</b><p>0 dan boshlovchilar &bull; 4&ndash;6 oy</p></div>
+        <span class="arrow">&#8250;</span>
+      </div>
+      <div class="course-card" onclick="showTab('test')">
+        <span class="course-icon">&#128216;</span>
+        <div><b>Pre-IELTS</b><p>A2&ndash;B1 daraja &bull; 3&ndash;5 oy</p></div>
+        <span class="arrow">&#8250;</span>
+      </div>
+      <div class="course-card" onclick="showTab('test')">
+        <span class="course-icon">&#127891;</span>
+        <div><b>IELTS</b><p>B1+ daraja &bull; 3&ndash;6 oy</p></div>
+        <span class="arrow">&#8250;</span>
+      </div>
+      <div class="course-card" onclick="showTab('test')">
+        <span class="course-icon">&#127941;</span>
+        <div><b>CEFR Guruhlari</b><p>B2/C1 sertifikat &bull; 2&ndash;4 oy</p></div>
+        <span class="arrow">&#8250;</span>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="showTab('register')">&#128640; Birinchi bepul darsga yozilish</button>
+    <button class="btn-outline" onclick="showTab('test')">&#129504; Bepul ingliz tili testi</button>
+  </section>
+
+</div><!-- /tab-home -->
+
+<!-- ══ TEST TAB ══ -->
+<div id="tab-test" class="tab">
+  <div id="quiz-intro" class="quiz-intro">
+    <div class="quiz-icon">&#129504;</div>
+    <h2>Ingliz tili darajangizni aniqlang</h2>
+    <p>15 ta savol &bull; A1 dan C1 gacha &bull; ~5 daqiqa</p>
+    <div class="quiz-hint">Test natijasiga qarab sizga mos kurs tavsiya qilinadi</div>
+    <button class="btn-primary" onclick="startQuiz()">&#128640; Testni boshlash</button>
   </div>
-  <div id="quiz-question-screen" style="display:none">
-    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-fill"></div></div>
-    <div class="quiz-meta" id="quiz-meta"></div>
-    <div class="quiz-question" id="quiz-question"></div>
-    <div class="quiz-options" id="quiz-options"></div>
+  <div id="quiz-screen" style="display:none">
+    <div class="progress-bar"><div class="progress-fill" id="q-fill"></div></div>
+    <div class="quiz-meta" id="q-meta"></div>
+    <div class="quiz-q" id="q-text"></div>
+    <div class="quiz-opts" id="q-opts"></div>
   </div>
-  <div id="quiz-result-screen" style="display:none">
+  <div id="quiz-result" style="display:none">
     <div class="result-card">
-      <div class="result-emoji" id="result-emoji"></div>
-      <div class="result-score" id="result-score"></div>
-      <div class="result-level" id="result-level"></div>
-      <div class="result-comment" id="result-comment"></div>
-      <button class="btn-primary" onclick="showTab('register')">&#128640; Sinov darsiga yozilish</button>
-      <button class="btn-secondary" onclick="restartQuiz()">&#128260; Qayta boshlash</button>
+      <div class="result-emoji" id="r-emoji"></div>
+      <div class="result-score" id="r-score"></div>
+      <div class="result-level" id="r-level"></div>
+      <div class="result-comment" id="r-comment"></div>
+      <button class="btn-primary"  onclick="showTab('register')">&#128640; Sinov darsiga yozilish</button>
+      <button class="btn-outline"  onclick="restartQuiz()">&#128260; Qayta boshlash</button>
     </div>
   </div>
 </div>
 
-<!-- BRANCHES TAB -->
-<div id="tab-branches" class="tab-content">
-  <div class="section-title">&#128205; Filiallarimiz</div>
-  <div id="branches-list"></div>
+<!-- ══ BRANCHES TAB ══ -->
+<div id="tab-branches" class="tab">
+  <section class="section">
+    <h2 class="section-title">&#128205; Filiallarimiz</h2>
+    <div id="branches-list"></div>
+  </section>
 </div>
 
-<!-- TEACHERS TAB -->
-<div id="tab-teachers" class="tab-content">
-  <div class="section-title">&#128104;&#8205;&#127979; Ustozlarimiz</div>
-  <div id="teachers-list"></div>
+<!-- ══ TEACHERS TAB ══ -->
+<div id="tab-teachers" class="tab">
+  <section class="section">
+    <h2 class="section-title">&#128104;&#8205;&#127979; Ustozlarimiz</h2>
+    <div id="teachers-list"></div>
+  </section>
 </div>
 
-<!-- REGISTER TAB -->
-<div id="tab-register" class="tab-content">
-  <div class="register-header">
-    <div class="register-icon">&#128640;</div>
+<!-- ══ REGISTER TAB ══ -->
+<div id="tab-register" class="tab">
+  <div class="reg-header">
+    <div class="reg-icon">&#128640;</div>
     <h2>Sinov darsiga yozilish</h2>
     <p>Birinchi dars <b>BEPUL!</b></p>
   </div>
-  <!-- Steps indicator -->
-  <div class="steps" id="reg-steps">
-    <div class="step active" id="step-dot-1">1</div>
-    <div class="step-line"></div>
-    <div class="step" id="step-dot-2">2</div>
-    <div class="step-line"></div>
-    <div class="step" id="step-dot-3">3</div>
-    <div class="step-line"></div>
-    <div class="step" id="step-dot-4">4</div>
-    <div class="step-line"></div>
-    <div class="step" id="step-dot-5">5</div>
+  <div class="steps" id="steps-bar">
+    <div class="step active" id="s1">1</div><div class="step-line"></div>
+    <div class="step" id="s2">2</div><div class="step-line"></div>
+    <div class="step" id="s3">3</div><div class="step-line"></div>
+    <div class="step" id="s4">4</div><div class="step-line"></div>
+    <div class="step" id="s5">5</div>
   </div>
-  <!-- Step 1: Name -->
-  <div class="reg-step" id="reg-step-1">
+  <div id="reg-1" class="reg-step">
     <label class="reg-label">&#128100; Ism va Familiyangiz</label>
-    <input type="text" class="reg-input" id="reg-name" placeholder="Masalan: Anvar Husanov">
+    <input type="text" id="reg-name" class="reg-input" placeholder="Masalan: Anvar Husanov">
     <button class="btn-primary" onclick="regNext(1)">Davom etish &#8250;</button>
   </div>
-  <!-- Step 2: Phone -->
-  <div class="reg-step" id="reg-step-2" style="display:none">
+  <div id="reg-2" class="reg-step" style="display:none">
     <label class="reg-label">&#128242; Telefon raqamingiz</label>
-    <input type="tel" class="reg-input" id="reg-phone" placeholder="+998 90 123 45 67">
+    <input type="tel" id="reg-phone" class="reg-input" placeholder="+998 90 123 45 67">
     <p class="reg-hint">yoki raqamingizni qoldiring</p>
     <button class="btn-primary" onclick="regNext(2)">Davom etish &#8250;</button>
     <button class="btn-back" onclick="regBack(2)">&#8592; Orqaga</button>
   </div>
-  <!-- Step 3: Branch -->
-  <div class="reg-step" id="reg-step-3" style="display:none">
+  <div id="reg-3" class="reg-step" style="display:none">
     <label class="reg-label">&#127968; Qaysi filial qulay?</label>
-    <div class="reg-options" id="reg-branches"></div>
+    <div class="reg-opts" id="reg-branches"></div>
     <button class="btn-back" onclick="regBack(3)">&#8592; Orqaga</button>
   </div>
-  <!-- Step 4: Course -->
-  <div class="reg-step" id="reg-step-4" style="display:none">
+  <div id="reg-4" class="reg-step" style="display:none">
     <label class="reg-label">&#128218; Qaysi kursda o'qimoqchisiz?</label>
-    <div class="reg-options" id="reg-courses"></div>
+    <div class="reg-opts" id="reg-courses"></div>
     <button class="btn-back" onclick="regBack(4)">&#8592; Orqaga</button>
   </div>
-  <!-- Step 5: Time -->
-  <div class="reg-step" id="reg-step-5" style="display:none">
+  <div id="reg-5" class="reg-step" style="display:none">
     <label class="reg-label">&#9200; Qaysi vaqt qulay?</label>
-    <div class="reg-options">
-      <button class="reg-option" onclick="regSelectTime('Ertalab (08:00-12:00)')">&#127749; Ertalab (08:00&ndash;12:00)</button>
-      <button class="reg-option" onclick="regSelectTime('Tushdan keyin (14:00-18:00)')">&#9728;&#65039; Tushdan keyin (14:00&ndash;18:00)</button>
-      <button class="reg-option" onclick="regSelectTime('Kechki (18:00-20:00)')">&#127771; Kechki (18:00&ndash;20:00)</button>
+    <div class="reg-opts">
+      <button class="reg-opt" onclick="regTime('Ertalab (08:00-12:00)')">&#127749; Ertalab (08:00&ndash;12:00)</button>
+      <button class="reg-opt" onclick="regTime('Tushdan keyin (14:00-18:00)')">&#9728;&#65039; Tushdan keyin (14:00&ndash;18:00)</button>
+      <button class="reg-opt" onclick="regTime('Kechki (18:00-20:00)')">&#127771; Kechki (18:00&ndash;20:00)</button>
     </div>
     <button class="btn-back" onclick="regBack(5)">&#8592; Orqaga</button>
   </div>
-  <!-- Success -->
-  <div class="reg-step" id="reg-success" style="display:none">
+  <div id="reg-ok" class="reg-step" style="display:none">
     <div class="success-card">
-      <div class="success-icon">&#9989;</div>
+      <div>&#9989;</div>
       <h2>Arizangiz qabul qilindi!</h2>
-      <p>Tez orada menejerimiz siz bilan bog'lanadi.</p>
-      <p><b>&#128222; +998 55 510 98 98</b></p>
+      <p>Menejerimiz tez orada siz bilan bog'lanadi.</p>
+      <p class="phone-big">&#128222; +998 55 510-98-98</p>
       <button class="btn-primary" onclick="showTab('home')">&#127968; Bosh sahifaga</button>
     </div>
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- ══ BOTTOM NAV ══ -->
 <nav class="bottom-nav">
-  <button class="nav-btn active" id="nav-home" onclick="showTab('home')">
-    <span>&#127968;</span><span>Bosh sahifa</span>
-  </button>
-  <button class="nav-btn" id="nav-test" onclick="showTab('test')">
-    <span>&#129504;</span><span>Test</span>
-  </button>
-  <button class="nav-btn" id="nav-branches" onclick="showTab('branches')">
-    <span>&#128205;</span><span>Filiallar</span>
-  </button>
-  <button class="nav-btn" id="nav-teachers" onclick="showTab('teachers')">
-    <span>&#128104;&#8205;&#127979;</span><span>Ustozlar</span>
-  </button>
-  <button class="nav-btn" id="nav-register" onclick="showTab('register')">
-    <span>&#128640;</span><span>Yozilish</span>
-  </button>
+  <button class="nav-btn active" id="nav-home"     onclick="showTab('home')">&#127968;<span>Bosh</span></button>
+  <button class="nav-btn"        id="nav-test"     onclick="showTab('test')">&#129504;<span>Test</span></button>
+  <button class="nav-btn"        id="nav-branches" onclick="showTab('branches')">&#128205;<span>Filiallar</span></button>
+  <button class="nav-btn"        id="nav-teachers" onclick="showTab('teachers')">&#128104;&#8205;&#127979;<span>Ustozlar</span></button>
+  <button class="nav-btn"        id="nav-register" onclick="showTab('register')">&#128640;<span>Yozilish</span></button>
 </nav>
 
 <script src="app.js"></script>
