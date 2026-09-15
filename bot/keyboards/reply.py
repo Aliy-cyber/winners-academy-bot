@@ -2,30 +2,28 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemo
 
 
 def main_menu_keyboard() -> ReplyKeyboardMarkup:
-    """Asosiy 4 ta menyu tugmalari."""
     return ReplyKeyboardMarkup(
         keyboard=[
             [
-                KeyboardButton(text="🚀 Sinov darsiga yozilish"),
-                KeyboardButton(text="📚 Kurslarimiz"),
+                KeyboardButton(text="\U0001f680 Sinov darsiga yozilish"),
+                KeyboardButton(text="\U0001f4da Kurslarimiz"),
             ],
             [
-                KeyboardButton(text="🏢 Filiallar va Ustozlar"),
-                KeyboardButton(text="📞 Bog’lanish va Tarmoqlar"),
+                KeyboardButton(text="\U0001f3e2 Filiallar va Ustozlar"),
+                KeyboardButton(text="\U0001f4de Bog'lanish va Tarmoqlar"),
             ],
         ],
         resize_keyboard=True,
         one_time_keyboard=False,
-        input_field_placeholder="Quyidagi bo’limlardan birini tanlang 👇",
+        input_field_placeholder="Quyidagi bo'limlardan birini tanlang \U0001f447",
     )
 
 
 def phone_keyboard() -> ReplyKeyboardMarkup:
-    """Telefon raqami yuborish tugmasi."""
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="📲 Raqamni yuborish", request_contact=True)],
-            [KeyboardButton(text="⬅️ Orqaga")],
+            [KeyboardButton(text="\U0001f4f2 Raqamni yuborish", request_contact=True)],
+            [KeyboardButton(text="\u2b05\ufe0f Orqaga")],
         ],
         resize_keyboard=True,
         one_time_keyboard=True,
@@ -34,9 +32,8 @@ def phone_keyboard() -> ReplyKeyboardMarkup:
 
 
 def back_keyboard() -> ReplyKeyboardMarkup:
-    """Faqat orqaga tugmasi."""
     return ReplyKeyboardMarkup(
-        keyboard=[[KeyboardButton(text="⬅️ Orqaga")]],
+        keyboard=[[KeyboardButton(text="\u2b05\ufe0f Orqaga")]],
         resize_keyboard=True,
     )
 
