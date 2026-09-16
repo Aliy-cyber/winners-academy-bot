@@ -39,6 +39,27 @@ async def on_startup(bot: Bot):
 
 
 
+import os
+from aiohttp import web
+
+async def handle_health_check(request):
+    return web.Response(text="Winners Academy Bot is alive and running 24/7!")
+
+
+async def start_web_server():
+    port_str = os.getenv("PORT")
+    if port_str:
+        port = int(port_str)
+        app = web.Application()
+        app.router.add_get("/", handle_health_check)
+        app.router.add_get("/health", handle_health_check)
+        runner = web.AppRunner(app)
+        await runner.setup()
+        site = web.TCPSite(runner, "0.0.0.0", port)
+        await site.start()
+        logger.info(f"Health-check web server started on port {port}")
+
+
 async def main():
     bot = Bot(
         token=BOT_TOKEN,
@@ -55,9 +76,13 @@ async def main():
         register.router,
     )
     dp.startup.register(on_startup)
+
+    await start_web_server()
+
     logger.info("Winners Academy Bot ishga tushmoqda...")
     await dp.start_polling(bot, skip_updates=True)
 
 
 if __name__ == "__main__":
     asyncio.run(main())
+
